@@ -23,12 +23,6 @@ def odchylka(seznam,prumer):
     return math.sqrt(vysl)
     #return (kvadr/(len(seznam)*((len(seznam)-1))))**0.5
 
-def volp(draha,casy):
-    vysl = []
-    for i in range(len(casy)):
-        vysl.append(2*draha/(casy[i])**2)
-    return vysl
-
 def komb_mereni(chyb_lst, prum_lst):
     citat = 0
     p = 0
@@ -37,48 +31,54 @@ def komb_mereni(chyb_lst, prum_lst):
         p += chyb_lst[i]**(-2)
     vysl = [citat/p, p**(-0.5)]
     return vysl
-def neprima_ch(s,prumt,chybat):
-    return abs(s/(prumt**3)*4*chybat)
+def nepr_ch_kyvadlo(l,chl,prumT,prumchybaT):
+    return ((prumchybaT*8*(math.pi)**2*l/prumT**3)**2+(8*(math.pi)**2 *chl/prumT**2)**2)**0.5
+            
+def prum_g_kyv(l,prumT):
+    return 4*math.pi**2*l/prumT**2 
+
+x = komb_mereni([0.203,0.4],[496.849,497.412])
+print(x)
+"""
+lr = 0.3
+cervena = [5.552,5.651,5.561,5.628,5.532,5.521,5.560,5.531,5.576,5.609]
+modra = [5.534,5.639,5.588,5.635,5.644,5.593,5.576,5.631,5.644,5.577]
 
 
-s1 =1.505
-s2=1.021
-s3= 0.485
-s4 = 0.295
-cas1 = [0.544,0.536,0.540,0.544,0.540,0.534,0.548,0.544,0.540,0.544]
-cas2= [0.444,0.434,0.452,0.436,0.440,0.452,0.452,0.444,0.432,0.440]
-cas3 = [0.316,0.304,0.308,0.300,0.304,0.300,0.308,0.312,0.308,0.316]
-cas4 = [0.236,0.240,0.238,0.240,0.236,0.248,0.244,0.240,0.238,0.244]
-
-prcas4 = prumer(cas4)
-prcas1 = prumer(cas1)
-prcas2 = prumer(cas2)
-prcas3 = prumer(cas3)
-volp1 = volp(s1,cas1)
-volp2= volp(s2,cas2)
-volp3= volp(s3,cas3)
-volp4= volp(s4,cas4)
-odchcas1 = odchylka(cas1,prcas1)
-odchcas2 = odchylka(cas2,prcas2)
-odchcas3 = odchylka(cas3,prcas3)
-odchcas4 = odchylka(cas4,prcas4)
-g1 = prumer(volp1)
-g2= prumer(volp2)
-g3= prumer(volp3)
-g4= prumer(volp4)
-print(g1,g2,g3,g4)
-print(neprima_ch(s1,prcas1,odchcas1))
-print(neprima_ch(s2,prcas2,odchcas2))
-print(neprima_ch(s3,prcas3,odchcas3))
-print(neprima_ch(s4,prcas4,odchcas4))
-
-chyby = [0.05,0.11,0.12,0.10]
-prum= [10.27,10.43,10.26,10.22]
-print(komb_mereni(chyby,prum))
+cervena = list(map(lambda x: x/5, cervena))
+modra = list(map(lambda x: x/5, modra))
+cervprum = prumer(cervena)
+modprum = prumer(modra)
+cervodch = odchylka(cervena, cervprum)
+mododch = odchylka(modra, modprum)
 
 
+komb = komb_mereni([cervodch,mododch], [cervprum,modprum])
+b = [nepr_ch_kyvadlo(lr, 0.012,cervprum, cervodch),prum_g_kyv(lr, cervprum)]
+c = [nepr_ch_kyvadlo(lr, 0.012,modprum, mododch),prum_g_kyv(lr, modprum)]
+vysl = [nepr_ch_kyvadlo(lr,0.012 ,komb[0], komb[1]),prum_g_kyv(lr,komb[0])]
+print(f"cervena: {b}")
+print(f"modr: {c}")
+print(f"vysl: {vysl}")
 
+kyv = [47.835, 47.822, 47.960, 47.943, 47.826, 47.873, 47.909, 47.931, 47.884, 47.872]
+kyv = list(map(lambda x: x/25, kyv))
+kyvprum = prumer(kyv)
+kyvodch = odchylka(kyv,kyvprum)
 
+s = 0.92
+x = [nepr_ch_kyvadlo(s, 0.005,kyvprum, kyvodch),prum_g_kyv(s, kyvprum)]
+print(f"kyvl: {x}")
+print("------------")
+print(cervodch, cervprum)
+print(mododch, modprum)
+print(kyvodch, kyvprum)
+
+a= sem(kyv)
+
+print(a)
+
+"""
 
 
 
